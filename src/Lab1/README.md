@@ -1,4 +1,4 @@
-#Lab1:Different approach for algorithms and data structure implementation
+# Lab1:Different approach for algorithms and data structure implementation
 
 Group Name: Oreo
 
