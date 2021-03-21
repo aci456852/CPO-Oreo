@@ -1,14 +1,10 @@
-# Different approach for algorithms and data structure implementation
+#Lab1:Different approach for algorithms and data structure implementation
 
 Group Name: Oreo
 
 List of group members:  Liang Ziyi , Liu Yixuan
 
-Laboratory work number: 1
-
-Variant description:  7
-
-Variant description：Dictionary based on hash-map (collision resolution: separate chaining）
+Variant description:  7-Dictionary based on hash-map (collision resolution: separate chaining）
 
 ## synopsis
 
@@ -237,7 +233,7 @@ Liu Yixuan completed data testing and documentation.
 
 ## Explanation of taken design decisions and analysis
 
-
+Firstly, the dictionary is implemented by hash table, and the conflict is solved by separate chaining, and the data structure is designed. Secondly, it is divided into mutable and immutable object for coding and testing. Compare mutable and immutable implementation, we can find out mutable program use built-in functions，and immutable program's built-in function is only initialization, and the related usage is written outside, which is an independent method. Thirdly, when writing test cases, it is not difficult to find that the logic code of the two is consistent, and the only difference is the function calls.
 
 ## Work demonstration
 
