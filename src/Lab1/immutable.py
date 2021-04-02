@@ -12,6 +12,8 @@ class Node(object):
         self.value = value
         self.next = next
 
+    def __repr__(self):
+        return "Node [key=" + self.key + ",value=" + self.value + "]"
 
 class HashMap(object):
 
@@ -33,22 +35,20 @@ def get_value(hash, key):
 
 # insert key-value pairs into hash map
 def add(hash, key, value) -> HashMap:
+    if type(key) == str:  # change key's type for remove key type restriction
+        key = ord(key)
+    new_node = Node(key, value, None)
+    new_list = [new_node]
+    hash_value = get_value(hash, key)
     if hash is None:
         hash = HashMap()
-    hash_value = get_value(hash, key)
     if hash.data[hash_value].key is None:
         hash.data[hash_value].value = value
         hash.data[hash_value].key = key
         hash.key_set.append(key)
     else:
-        temp = Node(key, value)
-        hash.key_set.append(key)
-        p = hash.data[hash_value]
-        while p.next is not None:
-            p = p.next
-        p.next = temp
+        return "wrong!"
     return hash
-
 
 # remove element in hash map by key
 def remove(hash, key) -> HashMap:
@@ -84,6 +84,8 @@ def remove(hash, key) -> HashMap:
 
 # find element in hash map by key
 def find(hash, key: int) -> object:
+    if type(key) == str:  # change key's type for remove key type restriction
+        key = ord(key)
     if hash.key_set is None:
         return None
     i = 0
@@ -193,7 +195,7 @@ def map(hash, f) -> HashMap:
     dict = to_dict(hash)
     for key in hash.key_set:
         value = f(find(hash, key))
-        add(dict, key, value)
+        dict[key] = value
     return dict
 
 

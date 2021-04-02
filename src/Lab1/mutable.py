@@ -12,6 +12,9 @@ class Node(object):
         self.value = value
         self.next = next
 
+    def __repr__(self):
+        return "Node [key=" + self.key + ",value=" + self.value + "]"
+
 
 class HashMap(object):
 
@@ -36,6 +39,9 @@ class HashMap(object):
 
     # insert key-value pairs into hash map
     def add(self, key, value):
+        print(type(key))
+        if type(key) == str:  # change key's type for remove key type restriction
+            key = ord(key)
         hash_value = self.get_value(key)
         kv_entry = Node(key, value)
 
@@ -83,6 +89,8 @@ class HashMap(object):
 
     # find element in hash map by key
     def find(self, key):
+        if type(key) == str:  # change key's type for remove key type restriction
+            key = ord(key)
         myDict = self.to_dict()
         value = myDict[key]
         return value

@@ -21,11 +21,13 @@ class TestImmutableList(unittest.TestCase):
         hash = HashMap()
         add(hash, 2, 6)
         self.assertEqual(find(hash, 2), 6)
-        self.assertEqual(to_dict(hash), {2: 6})
-        add(hash, 4, 5)
-        self.assertEqual(find(hash, 4), 5)
-        add(hash, 1, 5)
-        self.assertEqual(find(hash, 1), 5)
+        # self.assertEqual(to_dict(hash), {2: 6})
+        # add(hash, 4, 5)
+        # self.assertEqual(find(hash, 4), 5)
+        # add(hash, 1, 5)
+        # self.assertEqual(find(hash, 1), 5)
+        # add(hash, "A", 5)
+        # self.assertEqual(find(hash, "A"), 5)
 
     def test_remove(self):
         hash = HashMap()

@@ -26,6 +26,18 @@ class TestMutableList(unittest.TestCase):
         self.assertEqual(hash.find(4), 5)
         hash.add(1, 5)
         self.assertEqual(hash.find(1), 5)
+        hash.add("A", 1)  # 3. Remove key type restriction
+        self.assertEqual(hash.find("A"), 1)
+
+    def test_add2(self):
+        hash_a = HashMap()
+        hash_a.add(1, 1)
+        hash_a.add(11, 2)
+        hash_b = HashMap()
+        hash_b.add(11, 2)
+        hash_b.add(1, 1)
+        print(hash_a.to_dict(), hash_b.to_dict())
+        self.assertEqual(hash_a, hash_b)
 
     def test_remove(self):
         hash = HashMap()
