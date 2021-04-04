@@ -17,6 +17,8 @@ In this laboratory work, we should develop a library for a specific data structu
 
 ##### Mutable
 
+![a3dc210d5c42fe153b677005a6b3422](https://user-images.githubusercontent.com/73821262/113508086-a1553300-9580-11eb-9691-02484df2dc77.png)
+
 The functions of **mutable dict** are as follows：
 
 + get_value
@@ -122,6 +124,8 @@ The functions of **mutable dict** are as follows：
   ![monoid_associativity](https://user-images.githubusercontent.com/73821262/111927987-3c211e00-8a67-11eb-8e14-34d95dbb3f62.png)
 
 ##### Immutable
+
+![9f98cd35fcb835dd52a2df9a79c2772](https://user-images.githubusercontent.com/73821262/113508074-90a4bd00-9580-11eb-86ba-edac5e4d5723.png)
 
 + get_value
 
