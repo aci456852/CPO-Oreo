@@ -39,7 +39,6 @@ class HashMap(object):
 
     # insert key-value pairs into hash map
     def add(self, key, value):
-        print(type(key))
         if type(key) == str:  # change key's type for remove key type restriction
             key = ord(key)
         hash_value = self.get_value(key)
