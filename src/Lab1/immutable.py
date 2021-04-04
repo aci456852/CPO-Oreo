@@ -35,20 +35,24 @@ def get_value(hash, key):
 
 # insert key-value pairs into hash map
 def add(hash, key, value) -> HashMap:
+    new_hash = hash  # for not change stored data
     if type(key) == str:  # change key's type for remove key type restriction
         key = ord(key)
-    new_node = Node(key, value, None)
-    new_list = [new_node]
-    hash_value = get_value(hash, key)
-    if hash is None:
-        hash = HashMap()
-    if hash.data[hash_value].key is None:
-        hash.data[hash_value].value = value
-        hash.data[hash_value].key = key
-        hash.key_set.append(key)
+    hash_value = get_value(new_hash, key)
+    if new_hash is None:
+        new_hash = HashMap()
+    if new_hash.data[hash_value].key is None:
+        new_hash.data[hash_value].value = value
+        new_hash.data[hash_value].key = key
+        new_hash.key_set.append(key)
     else:
-        return "wrong!"
-    return hash
+        temp = Node(key, value)
+        new_hash.key_set.append(key)
+        p = new_hash.data[hash_value]
+        while p.next is not None:
+            p = p.next
+        p.next = temp
+    return new_hash
 
 # remove element in hash map by key
 def remove(hash, key) -> HashMap:
