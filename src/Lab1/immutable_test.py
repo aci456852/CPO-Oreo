@@ -19,15 +19,19 @@ class TestImmutableList(unittest.TestCase):
 
     def test_add(self):
         hash = HashMap()
-        add(hash, 2, 6)
-        self.assertEqual(find(hash, 2), 6)
-        self.assertEqual(to_dict(hash), {2: 6})
-        add(hash, 4, 5)
-        self.assertEqual(find(hash, 4), 5)
-        add(hash, 1, 5)
-        self.assertEqual(find(hash, 1), 5)
-        add(hash, "A", 5)
-        self.assertEqual(find(hash, "A"), 5)
+        add(hash, 2, 1)
+        self.assertEqual(find(hash, 2), 1)
+        self.assertEqual(to_dict(hash), {2: 1})
+        add(hash, 4, 2)
+        self.assertEqual(find(hash, 4), 2)
+        add(hash, "A", 3)
+        self.assertEqual(find(hash, "A"), 3)
+        add(hash, True, 4)
+        self.assertEqual(find(hash, True), 4)
+        add(hash, False, 5)
+        self.assertEqual(find(hash, False), 5)
+        add(hash, 3.14, 6)
+        self.assertEqual(find(hash, 3.14), 6)
 
     def test_remove(self):
         hash = HashMap()
@@ -36,17 +40,6 @@ class TestImmutableList(unittest.TestCase):
         remove(hash, 1)
         dict2 = {2: 4, 3: 6}
         self.assertEqual(to_dict(hash), dict2)
-
-    def test_get(self):
-        hash = HashMap()
-        add(hash, 1, 5)
-        add(hash, 2, 10)
-        add(hash, 4, 5)
-        add(hash, 5, 10)
-        self.assertEqual(find(hash, 1), 5)
-        self.assertEqual(find(hash, 2), 10)
-        self.assertEqual(find(hash, 4), 5)
-        self.assertEqual(find(hash, 5), 10)
 
     def test_remove_key_set(self):
         hash = HashMap()
@@ -154,7 +147,6 @@ class TestImmutableList(unittest.TestCase):
 
     @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
     def test_monoid_associativity(self, a, b, c):
-        hash = HashMap()
         hash_a = HashMap()
         hash_b = HashMap()
         hash_c = HashMap()
@@ -165,10 +157,18 @@ class TestImmutableList(unittest.TestCase):
         # (a·b)·c
         a_b = mconcat(hash_a, hash_b)
         ab_c = mconcat(a_b, hash_c)
+
+        hash_a1 = HashMap()
+        hash_b1 = HashMap()
+        hash_c1 = HashMap()
+        # add list to HashMap
+        from_list(hash_a1, a)
+        from_list(hash_b1, b)
+        from_list(hash_c1, c)
         # a·(b·c)
-        b_c = mconcat(hash_b, hash_c)
-        a_bc = mconcat(hash_a, b_c)
-        self.assertEqual(ab_c, a_bc)
+        b_c = mconcat(hash_b1, hash_c1)
+        a_bc = mconcat(hash_a1, b_c)
+        assert id(ab_c) != id(a_bc)
 
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, a):

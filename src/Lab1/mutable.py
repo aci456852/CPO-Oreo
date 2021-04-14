@@ -39,8 +39,16 @@ class HashMap(object):
 
     # insert key-value pairs into hash map
     def add(self, key, value):
-        if type(key) == str:  # change key's type for remove key type restriction
+        if type(key) == str:  # change key's type for remove key type restriction --str
             key = ord(key)
+        if type(key) == bool:  # change key's type for remove key type restriction --bool
+            if key == True:
+                key = 1
+            else:
+                key = 0
+        if type(key) == float:  # change key's type for remove key type restriction --float
+            key = int(key)
+
         hash_value = self.get_value(key)
         kv_entry = Node(key, value)
 
@@ -88,8 +96,15 @@ class HashMap(object):
 
     # find element in hash map by key
     def find(self, key):
-        if type(key) == str:  # change key's type for remove key type restriction
+        if type(key) == str:  # change key's type for remove key type restriction --str
             key = ord(key)
+        if type(key) == bool:  # change key's type for remove key type restriction --bool
+            if key == True:
+                key = 1
+            else:
+                key = 0
+        if type(key) == float:  # change key's type for remove key type restriction --float
+            key = int(key)
         myDict = self.to_dict()
         value = myDict[key]
         return value

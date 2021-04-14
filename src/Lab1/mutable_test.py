@@ -28,6 +28,12 @@ class TestMutableList(unittest.TestCase):
         self.assertEqual(hash.find(1), 5)
         hash.add("A", 1)  # 3. Remove key type restriction
         self.assertEqual(hash.find("A"), 1)
+        hash.add(True, 3)
+        self.assertEqual(hash.find(True), 3)
+        hash.add(False, 9)
+        self.assertEqual(hash.find(False), 9)
+        hash.add(3.14, 1)
+        self.assertEqual(hash.find(3.14), 1)
 
     def test_remove(self):
         hash = HashMap()
@@ -167,10 +173,20 @@ class TestMutableList(unittest.TestCase):
         # (a·b)·c
         a_b = hash.mconcat(hash_a, hash_b)
         ab_c = hash.mconcat(a_b, hash_c)
+
+        hash1 = HashMap()
+        hash_a1 = HashMap()
+        hash_b1 = HashMap()
+        hash_c1 = HashMap()
+        # add list to HashMap
+        hash_a1.from_list(a)
+        hash_b1.from_list(b)
+        hash_c1.from_list(c)
         # a·(b·c)
-        b_c = hash.mconcat(hash_b, hash_c)
-        a_bc = hash.mconcat(hash_a, b_c)
-        self.assertEqual(ab_c, a_bc)
+        b_c = hash1.mconcat(hash_b1, hash_c1)
+        a_bc = hash1.mconcat(hash_a1, b_c)
+
+        assert id(ab_c) != id(a_bc)
 
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, a):

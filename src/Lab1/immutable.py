@@ -36,8 +36,17 @@ def get_value(hash, key):
 # insert key-value pairs into hash map
 def add(hash, key, value) -> HashMap:
     new_hash = hash  # for not change stored data
-    if type(key) == str:  # change key's type for remove key type restriction
+
+    if type(key) == str:  # change key's type for remove key type restriction --str
         key = ord(key)
+    if type(key) == bool:  # change key's type for remove key type restriction --bool
+        if key == True:
+            key = 1
+        else:
+            key = 0
+    if type(key) == float:  # change key's type for remove key type restriction --float
+        key = int(key)
+
     hash_value = get_value(new_hash, key)
     if new_hash is None:
         new_hash = HashMap()
@@ -56,13 +65,14 @@ def add(hash, key, value) -> HashMap:
 
 # remove element in hash map by key
 def remove(hash, key) -> HashMap:
-    if hash is None:
+    new_hash = hash  # for not change stored data
+    if new_hash is None:
         return None
-    hash_value = get_value(hash, key)
-    if hash.data[hash_value].value is None:
+    hash_value = get_value(new_hash, key)
+    if new_hash.data[hash_value].value is None:
         raise Exception('No valid key value was found')
     else:
-        p = hash.data[hash_value]
+        p = new_hash.data[hash_value]
         if key == p.key:
             if p.next is None:
                 p.key = None
@@ -72,15 +82,15 @@ def remove(hash, key) -> HashMap:
                 p.key = temp.key
                 p.value = temp.value
                 p.next = temp.next
-            remove_key_set(hash, key)
-            return hash
+            remove_key_set(new_hash, key)
+            return new_hash
         else:
             while p is not None:
                 if p.key == key:
                     temp = p.next
                     p.next = temp.next
-                    remove_key_set(hash, key)
-                    return hash
+                    remove_key_set(new_hash, key)
+                    return new_hash
                 else:
                     p = p.next
     raise Exception('No valid key value was found')
@@ -88,8 +98,16 @@ def remove(hash, key) -> HashMap:
 
 # find element in hash map by key
 def find(hash, key: int) -> object:
-    if type(key) == str:  # change key's type for remove key type restriction
+    if type(key) == str:  # change key's type for remove key type restriction --str
         key = ord(key)
+    if type(key) == bool:  # change key's type for remove key type restriction --bool
+        if key == True:
+            key = 1
+        else:
+            key = 0
+    if type(key) == float:  # change key's type for remove key type restriction --float
+        key = int(key)
+
     if hash.key_set is None:
         return None
     i = 0
@@ -108,11 +126,12 @@ def find(hash, key: int) -> object:
 
 
 def remove_key_set(hash, key):
-    for i, k in enumerate(hash.key_set):
+    new_hash = hash
+    for i, k in enumerate(new_hash.key_set):
         if key == k:
-            arr = hash.key_set
+            arr = new_hash.key_set
             del arr[i]
-            return hash
+            return new_hash
 
 
 def from_dict(hash, dict):
