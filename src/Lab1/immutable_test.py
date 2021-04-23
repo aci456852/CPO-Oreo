@@ -19,18 +19,18 @@ class TestImmutableList(unittest.TestCase):
 
     def test_add(self):
         hash = HashMap()
-        add(hash, 2, 1)
+        hash = add(hash, 2, 1)
         self.assertEqual(find(hash, 2), 1)
         self.assertEqual(to_dict(hash), {2: 1})
-        add(hash, 4, 2)
+        hash = add(hash, 4, 2)
         self.assertEqual(find(hash, 4), 2)
-        add(hash, "A", 3)
+        hash = add(hash, "A", 3)
         self.assertEqual(find(hash, "A"), 3)
-        add(hash, True, 4)
+        hash = add(hash, True, 4)
         self.assertEqual(find(hash, True), 4)
-        add(hash, False, 5)
+        hash = add(hash, False, 5)
         self.assertEqual(find(hash, False), 5)
-        add(hash, 3.14, 6)
+        hash = add(hash, 3.14, 6)
         self.assertEqual(find(hash, 3.14), 6)
 
     def test_remove(self):
@@ -44,9 +44,9 @@ class TestImmutableList(unittest.TestCase):
     def test_remove_key_set(self):
         hash = HashMap()
         self.assertEqual(hash.key_set, [])
-        from_dict(hash, {1: 2, 2: 4, 3: 6})
+        hash = from_dict(hash, {1: 2, 2: 4, 3: 6})
         self.assertEqual(hash.key_set, [1, 2, 3])
-        remove_key_set(hash, 1)
+        hash = remove_key_set(hash, 1)
         self.assertEqual(hash.key_set, [2, 3])
 
     def test_from_dict(self):
@@ -58,19 +58,19 @@ class TestImmutableList(unittest.TestCase):
 
     def test_to_dict(self):
         hash = HashMap()
-        add(hash, 1, 2)
-        add(hash, 2, 4)
-        add(hash, 3, 6)
-        add(hash, 4, 8)
+        hash = add(hash, 1, 2)
+        hash = add(hash, 2, 4)
+        hash = add(hash, 3, 6)
+        hash = add(hash, 4, 8)
         to_dict(hash)
         self.assertEqual(to_dict(hash), {1: 2, 2: 4, 3: 6, 4: 8})
 
     def test_get_size(self):
         hash = HashMap()
         self.assertEqual(get_size(hash), 0)
-        add(hash, 1, 2)
+        hash = add(hash, 1, 2)
         self.assertEqual(get_size(hash), 1)
-        add(hash, 14, 2)
+        hash = add(hash, 14, 2)
         self.assertEqual(get_size(hash), 2)
 
     def test_from_list(self):
@@ -83,24 +83,24 @@ class TestImmutableList(unittest.TestCase):
         ]
         for e in test_data:
             hash = HashMap()
-            from_list(hash, e)
+            hash = from_list(hash, e)
             self.assertEqual(to_list(hash), e)
 
     def test_to_list(self):
         hash = HashMap()
         dict = {1: 2, 2: 4, 3: 6, 4: 8}
-        from_dict(hash, dict)
+        hash = from_dict(hash, dict)
         self.assertEqual(to_list(hash), [2, 4, 6, 8])
 
     def test_find_iseven(self):
         hash = HashMap()
-        from_list(hash, ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
+        hash = from_list(hash, ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
         self.assertEqual(to_list(hash), ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
         self.assertEqual(find_iseven(hash), [2, 4, 6.0, 8])
 
     def test_filter_iseven(self):
         hash = HashMap()
-        from_list(hash, ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
+        hash = from_list(hash, ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
         self.assertEqual(to_list(hash), ['a', 1, 2, 3.14, 'b', 4, 5, 'c', 6.0, 7, 8])
         self.assertEqual(filter_iseven(hash), ['a', 1, 3.14, 'b', 5, 'c', 7])
 
@@ -108,7 +108,7 @@ class TestImmutableList(unittest.TestCase):
         dict1 = {1: 2, 2: 4}
         dict2 = {1: '2', 2: '4'}
         hash = HashMap()
-        from_dict(hash, dict1)
+        hash = from_dict(hash, dict1)
         self.assertEqual(map(hash, str), dict2)
 
     def test_reduce(self):
@@ -116,24 +116,24 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(reduce(hash, lambda st, e: st + e, 0), 0)
         dict1 = {1: 2, 2: 4}
         hash1 = HashMap()
-        from_dict(hash1, dict1)
+        hash1 = from_dict(hash1, dict1)
         self.assertEqual(reduce(hash1, lambda st, e: st + e, 0), 6)
 
     def test_hash_collision(self):
         hash1 = HashMap()
         hash2 = HashMap()
-        add(hash1, 1, 777)
-        add(hash2, 11, 777)
+        hash = add(hash1, 1, 777)
+        hash = add(hash2, 11, 777)
         self.assertEqual(get_value(hash1, 1), get_value(hash2, 11))
 
     def test_iter(self):
         dict1 = {1: 2, 2: 4, 3: 6, 4: 8}
-        table = HashMap()
-        from_dict(table, dict1)
+        hash = HashMap()
+        hash = from_dict(hash, dict1)
         tmp = {}
-        for e in table:
+        for e in hash:
             tmp[e.key] = e.value
-        self.assertEqual(to_dict(table), tmp)
+        self.assertEqual(to_dict(hash), tmp)
         i = iter(HashMap())
         self.assertRaises(StopIteration, lambda: next(i))
 
@@ -141,19 +141,17 @@ class TestImmutableList(unittest.TestCase):
     def test_monoid_identity(self, a):
         hash = HashMap()
         hash_a = HashMap()
-        from_list(hash_a, a)
+        hash_a = from_list(hash_a, a)
         self.assertEqual(mconcat(mempty(hash), hash_a), hash_a)
         self.assertEqual(mconcat(hash_a, mempty(hash)), hash_a)
 
-    @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
-    def test_monoid_associativity(self, a, b, c):
+    def test_monoid_associativity(self):
         hash_a = HashMap()
         hash_b = HashMap()
         hash_c = HashMap()
-        # add list to HashMap
-        from_list(hash_a, a)
-        from_list(hash_b, b)
-        from_list(hash_c, c)
+        hash_a = add(hash_a, 1, 2)
+        hash_b = add(hash_b, 2, 3)
+        hash_c = add(hash_c, 3, 6)
         # (a·b)·c
         a_b = mconcat(hash_a, hash_b)
         ab_c = mconcat(a_b, hash_c)
@@ -161,38 +159,39 @@ class TestImmutableList(unittest.TestCase):
         hash_a1 = HashMap()
         hash_b1 = HashMap()
         hash_c1 = HashMap()
-        # add list to HashMap
-        from_list(hash_a1, a)
-        from_list(hash_b1, b)
-        from_list(hash_c1, c)
+        hash_a1 = add(hash_a1, 1, 2)
+        hash_b1 = add(hash_b1, 2, 3)
+        hash_c1 = add(hash_c1, 3, 6)
         # a·(b·c)
         b_c = mconcat(hash_b1, hash_c1)
         a_bc = mconcat(hash_a1, b_c)
-        assert id(ab_c) != id(a_bc)
+
+        assert id(ab_c) != id(a_bc)  # address is not same
+        self.assertEqual(to_list(ab_c), to_list(a_bc))  # value is same
 
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, a):
         hash = HashMap()
-        from_list(hash, a)
+        hash = from_list(hash, a)
         b = to_list(hash)
         self.assertEqual(a, b)
 
     @given(st.lists(st.integers()))
     def test_python_len_and_list_size_equality(self, a):
         hash = HashMap()
-        from_list(hash, a)
+        hash = from_list(hash, a)
         self.assertEqual(get_size(hash), len(a))
 
     @given(st.lists(st.integers()))
     def test_from_list(self, a):
         hash = HashMap()
-        from_list(hash, a)
+        hash = from_list(hash, a)
         self.assertEqual(to_list(hash), a)
 
     def test_iter(self):
         x = [1, 2, 3]
         hash = HashMap()
-        from_list(hash, x)
+        hash = from_list(hash, x)
         tmp = []
         try:
             get_next = iterator(hash)

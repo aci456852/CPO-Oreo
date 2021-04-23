@@ -72,6 +72,10 @@ class HashMap(object):
 
     # remove element in hash map by key
     def remove(self, key):
+        # Add tests for exceptions
+        if key is None:
+            raise Exception("remove not existence key!")
+
         hash_value = self.get_value(key)
         if self.data[hash_value] is self.empty:
             return False
@@ -105,9 +109,23 @@ class HashMap(object):
                 key = 0
         if type(key) == float:  # change key's type for remove key type restriction --float
             key = int(key)
-        myDict = self.to_dict()
-        value = myDict[key]
-        return value
+
+        if self.key_set is None:
+            return None
+        i = 0
+        while i < self.size:
+            if self.data[i] is self.empty:
+                i += 1
+                continue
+            else:
+                p = self.data[i]
+                while p is not None:
+                    if p.key == key:
+                        return p.value
+                    p = p.next
+                i += 1
+        print("can not find the key")
+        return -1
 
     def remove_key_set(self, key):
         self.key_set.remove(key)

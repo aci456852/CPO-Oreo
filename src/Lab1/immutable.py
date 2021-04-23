@@ -35,7 +35,13 @@ def get_value(hash, key):
 
 # insert key-value pairs into hash map
 def add(hash, key, value) -> HashMap:
-    new_hash = hash  # for not change stored data
+    # copy structure
+    new_hash = HashMap()
+    new_hash.size = hash.size
+    for x in range(len(hash.key_set)):
+        new_hash.key_set.append(hash.key_set[x])
+    for x in range(len(hash.data)):
+        new_hash.data[x] = hash.data[x]
 
     if type(key) == str:  # change key's type for remove key type restriction --str
         key = ord(key)
@@ -63,9 +69,21 @@ def add(hash, key, value) -> HashMap:
         p.next = temp
     return new_hash
 
+
 # remove element in hash map by key
 def remove(hash, key) -> HashMap:
-    new_hash = hash  # for not change stored data
+    # Add tests for exceptions
+    if key is None:
+        raise Exception("remove not existence key!")
+
+    # copy structure
+    new_hash = HashMap()
+    new_hash.size = hash.size
+    for x in range(len(hash.key_set)):
+        new_hash.key_set.append(hash.key_set[x])
+    for x in range(len(hash.data)):
+        new_hash.data[x] = hash.data[x]
+
     if new_hash is None:
         return None
     hash_value = get_value(new_hash, key)
@@ -122,22 +140,46 @@ def find(hash, key: int) -> object:
                     return p.value
                 p = p.next
             i += 1
-    return i
+    print("can not find the key")
+    return -1
 
 
 def remove_key_set(hash, key):
-    new_hash = hash
+    # Add tests for exceptions
+    if key is None:
+        raise Exception("remove not existence key!")
+
+    # copy structure
+    new_hash = HashMap()
+    new_hash.size = hash.size
+    for x in range(len(hash.key_set)):
+        new_hash.key_set.append(hash.key_set[x])
+    for x in range(len(hash.data)):
+        new_hash.data[x] = hash.data[x]
+
     for i, k in enumerate(new_hash.key_set):
         if key == k:
             arr = new_hash.key_set
             del arr[i]
             return new_hash
 
+    print("can not find the key")
+    return -1
+
+
 
 def from_dict(hash, dict):
-    for k, v in dict.items():
-        add(hash, k, v)
+    new_hash = HashMap()
+    new_hash.size = hash.size
+    for x in range(len(hash.key_set)):
+        new_hash.key_set.append(hash.key_set[x])
+    for x in range(len(hash.data)):
+        new_hash.data[x] = hash.data[x]
 
+    for key, value in dict.items():
+        new_hash = add(new_hash, key, value)
+
+    return new_hash
 
 # transfer hash map into dict
 def to_dict(hash) -> {}:
@@ -188,9 +230,16 @@ def to_list(hash):
 
 # add element from list type
 def from_list(hash, list):
-    for key, value in enumerate(list):
-        add(hash, key, value)
+    new_hash = HashMap()
+    new_hash.size = hash.size
+    for x in range(len(hash.key_set)):
+        new_hash.key_set.append(hash.key_set[x])
+    for x in range(len(hash.data)):
+        new_hash.data[x] = hash.data[x]
 
+    for key, value in enumerate(list):
+        new_hash = add(new_hash, key, value)
+    return new_hash
 
 # find element with even value in hash map.
 def find_iseven(hash) -> HashMap:
@@ -242,7 +291,7 @@ def mconcat(a, b):
         return a
     for key in b.key_set:
         value = find(b, key)
-        add(a, key, value)
+        hash = add(a, key, value)
     return a
 
 

@@ -160,16 +160,14 @@ class TestMutableList(unittest.TestCase):
         self.assertEqual(hash.mconcat(hash.mempty(), hash_a), hash_a)
         self.assertEqual(hash.mconcat(hash_a, hash.mempty()), hash_a)
 
-    @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
-    def test_monoid_associativity(self, a, b, c):
+    def test_monoid_associativity(self):
         hash = HashMap()
         hash_a = HashMap()
         hash_b = HashMap()
         hash_c = HashMap()
-        # add list to HashMap
-        hash_a.from_list(a)
-        hash_b.from_list(b)
-        hash_c.from_list(c)
+        hash_a.add(1, 2)
+        hash_b.add(2, 4)
+        hash_c.add(3, 6)
         # (a·b)·c
         a_b = hash.mconcat(hash_a, hash_b)
         ab_c = hash.mconcat(a_b, hash_c)
@@ -178,15 +176,15 @@ class TestMutableList(unittest.TestCase):
         hash_a1 = HashMap()
         hash_b1 = HashMap()
         hash_c1 = HashMap()
-        # add list to HashMap
-        hash_a1.from_list(a)
-        hash_b1.from_list(b)
-        hash_c1.from_list(c)
+        hash_a1.add(1, 2)
+        hash_b1.add(2, 4)
+        hash_c1.add(3, 6)
         # a·(b·c)
         b_c = hash1.mconcat(hash_b1, hash_c1)
         a_bc = hash1.mconcat(hash_a1, b_c)
 
-        assert id(ab_c) != id(a_bc)
+        assert id(ab_c) != id(a_bc)  # address is not same
+        self.assertEqual(ab_c.to_list(), a_bc.to_list())  # value is same
 
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, a):
