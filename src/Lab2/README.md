@@ -31,7 +31,7 @@ First, we need to complete the conversion of mathematical expressions and set up
         self.assertEqual(res,15)
 ```
 
-![image-20210425141541542](C:%5CUsers%5CMSI-NB%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210425141541542.png)
+![add](https://user-images.githubusercontent.com/73821262/115984342-388a3500-a5d9-11eb-9147-7c6a404389a8.png)
 
 ```python
     def test_error1(self):
@@ -42,7 +42,7 @@ First, we need to complete the conversion of mathematical expressions and set up
             str.evaluate(a=1, b=2, c=3, d=0)
 ```
 
-![image-20210425141737922](C:%5CUsers%5CMSI-NB%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210425141737922.png)
+![error](https://user-images.githubusercontent.com/73821262/115984344-4049d980-a5d9-11eb-9229-4ce4230fe59e.png)
 
 ```python
     def test_dataflow(self):
@@ -52,13 +52,13 @@ First, we need to complete the conversion of mathematical expressions and set up
         str.Visualization()
 ```
 
-![image-20210425141900695](C:%5CUsers%5CMSI-NB%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210425141900695.png)
+![dataflow](https://user-images.githubusercontent.com/73821262/115984352-4d66c880-a5d9-11eb-9214-45d9398e7a57.png)
 
-![math_expression](E:%5Cgitworkspace%5CCPO-Oreo%5Csrc%5CLab2%5Cgraph%5Cmath_expression.png)
+![math_expression](https://user-images.githubusercontent.com/73821262/115984356-50fa4f80-a5d9-11eb-83e1-52d6223ad23e.png)
 
 Run results of the entire test file.
 
-![image-20210425145544068](C:%5CUsers%5CMSI-NB%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210425145544068.png)
+![all](https://user-images.githubusercontent.com/73821262/115984360-56f03080-a5d9-11eb-8c9e-12eacccfeb18.png)
 
 ## Conclusion
 
