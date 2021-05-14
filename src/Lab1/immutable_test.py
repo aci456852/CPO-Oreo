@@ -36,8 +36,10 @@ class TestImmutableList(unittest.TestCase):
     def test_remove(self):
         hash = HashMap()
         dict1 = {1: 2, 2: 4, 3: 6}
-        from_dict(hash, dict1)
+        hash = from_dict(hash, dict1)
         remove(hash, 1)
+        with self.assertRaises(Exception):  # Exception detection
+            remove(hash, 5)
         dict2 = {2: 4, 3: 6}
         self.assertEqual(to_dict(hash), dict2)
 
@@ -122,8 +124,8 @@ class TestImmutableList(unittest.TestCase):
     def test_hash_collision(self):
         hash1 = HashMap()
         hash2 = HashMap()
-        hash = add(hash1, 1, 777)
-        hash = add(hash2, 11, 777)
+        hash1 = add(hash1, 1, 777)
+        hash2 = add(hash2, 11, 777)
         self.assertEqual(get_value(hash1, 1), get_value(hash2, 11))
 
     def test_iter(self):
@@ -137,6 +139,7 @@ class TestImmutableList(unittest.TestCase):
         i = iter(HashMap())
         self.assertRaises(StopIteration, lambda: next(i))
 
+    # e·a = a·e = a
     @given(a=st.lists(st.integers()))
     def test_monoid_identity(self, a):
         hash = HashMap()
@@ -145,13 +148,15 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(mconcat(mempty(hash), hash_a), hash_a)
         self.assertEqual(mconcat(hash_a, mempty(hash)), hash_a)
 
-    def test_monoid_associativity(self):
+    # (a·b)·c = a·(b·c)
+    @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
+    def test_monoid_associativity(self, a, b, c):
         hash_a = HashMap()
         hash_b = HashMap()
         hash_c = HashMap()
-        hash_a = add(hash_a, 1, 2)
-        hash_b = add(hash_b, 2, 3)
-        hash_c = add(hash_c, 3, 6)
+        hash_a = from_list(hash_a, a)
+        hash_b = from_list(hash_b, b)
+        hash_c = from_list(hash_c, c)
         # (a·b)·c
         a_b = mconcat(hash_a, hash_b)
         ab_c = mconcat(a_b, hash_c)
@@ -159,9 +164,9 @@ class TestImmutableList(unittest.TestCase):
         hash_a1 = HashMap()
         hash_b1 = HashMap()
         hash_c1 = HashMap()
-        hash_a1 = add(hash_a1, 1, 2)
-        hash_b1 = add(hash_b1, 2, 3)
-        hash_c1 = add(hash_c1, 3, 6)
+        hash_a1 = from_list(hash_a1, a)
+        hash_b1 = from_list(hash_b1, b)
+        hash_c1 = from_list(hash_c1, c)
         # a·(b·c)
         b_c = mconcat(hash_b1, hash_c1)
         a_bc = mconcat(hash_a1, b_c)

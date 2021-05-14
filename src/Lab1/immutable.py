@@ -4,20 +4,20 @@ Author: Liang Ziyi
 Date: 2021/3/20
 Title: Dictionary based on hash-map (immutable)
 """
-
+from typing import List, Tuple
 
 class Node(object):
-    def __init__(self, key=None, value=None, next=None):
+    def __init__(self, key=None, value=None, next=None) -> None:
         self.key = key
         self.value = value
         self.next = next
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Node [key=" + self.key + ",value=" + self.value + "]"
 
 class HashMap(object):
 
-    def __init__(self, dict=None):
+    def __init__(self, dict=None) -> None:
         self.key_set = []
         self.size = 10
         self.data = [Node() for _ in range(10)]
@@ -28,13 +28,13 @@ class HashMap(object):
 
 
 # get hash value
-def get_value(hash, key):
+def get_value(hash: HashMap, key: int) -> int:
     hash_value = key % hash.size
     return hash_value
 
 
 # insert key-value pairs into hash map
-def add(hash, key, value) -> HashMap:
+def add(hash: HashMap, key: object, value: int) -> HashMap:
     # copy structure
     new_hash = HashMap()
     new_hash.size = hash.size
@@ -85,7 +85,7 @@ def remove(hash, key) -> HashMap:
         new_hash.data[x] = hash.data[x]
 
     if new_hash is None:
-        return None
+        raise Exception("new_hash is None!")
     hash_value = get_value(new_hash, key)
     if new_hash.data[hash_value].value is None:
         raise Exception('No valid key value was found')
@@ -115,7 +115,7 @@ def remove(hash, key) -> HashMap:
 
 
 # find element in hash map by key
-def find(hash, key: int) -> object:
+def find(hash: HashMap, key: int) -> object:
     if type(key) == str:  # change key's type for remove key type restriction --str
         key = ord(key)
     if type(key) == bool:  # change key's type for remove key type restriction --bool
@@ -140,11 +140,10 @@ def find(hash, key: int) -> object:
                     return p.value
                 p = p.next
             i += 1
-    print("can not find the key")
-    return -1
+    raise Exception("can not find the key")
 
 
-def remove_key_set(hash, key):
+def remove_key_set(hash: HashMap, key: int) -> HashMap:
     # Add tests for exceptions
     if key is None:
         raise Exception("remove not existence key!")
@@ -163,12 +162,10 @@ def remove_key_set(hash, key):
             del arr[i]
             return new_hash
 
-    print("can not find the key")
-    return -1
+    raise Exception("can not find the key")
 
 
-
-def from_dict(hash, dict):
+def from_dict(hash: HashMap, dict: dict) -> HashMap:
     new_hash = HashMap()
     new_hash.size = hash.size
     for x in range(len(hash.key_set)):
@@ -182,7 +179,7 @@ def from_dict(hash, dict):
     return new_hash
 
 # transfer hash map into dict
-def to_dict(hash) -> {}:
+def to_dict(hash: HashMap) -> {}:
     myDict = {}
     if hash is None:
         return myDict
@@ -202,7 +199,7 @@ def to_dict(hash) -> {}:
 
 
 # element number in hash map
-def get_size(hash) -> int:
+def get_size(hash: HashMap) -> int:
     sum = 0
     i = 0
     while i < hash.size:
@@ -219,7 +216,7 @@ def get_size(hash) -> int:
 
 
 # transfer hash map into list type
-def to_list(hash):
+def to_list(hash: HashMap) -> List:
     list = []
     if hash is None:
         return list
@@ -229,7 +226,7 @@ def to_list(hash):
 
 
 # add element from list type
-def from_list(hash, list):
+def from_list(hash: HashMap, list: List) -> HashMap:
     new_hash = HashMap()
     new_hash.size = hash.size
     for x in range(len(hash.key_set)):
@@ -242,7 +239,7 @@ def from_list(hash, list):
     return new_hash
 
 # find element with even value in hash map.
-def find_iseven(hash) -> HashMap:
+def find_iseven(hash: HashMap) -> HashMap:
     list = to_list(hash)
     my_list = []
     for value in range(len(list)):
@@ -253,7 +250,7 @@ def find_iseven(hash) -> HashMap:
 
 
 # filter element with even value in hash map.
-def filter_iseven(hash):
+def filter_iseven(hash: HashMap) -> List:
     list = to_list(hash)
     for value in list:
         if type(value) is int or type(value) is float:
@@ -263,7 +260,7 @@ def filter_iseven(hash):
 
 
 # map element value in hash map with f
-def map(hash, f) -> HashMap:
+def map(hash: HashMap, f: type) -> dict:
     dict = to_dict(hash)
     for key in hash.key_set:
         value = f(find(hash, key))
@@ -272,7 +269,7 @@ def map(hash, f) -> HashMap:
 
 
 #  build a return value by specific functions(f)
-def reduce(hash, f, initial_state):
+def reduce(hash: HashMap, f, initial_state):
     state = initial_state
     for key in hash.key_set:
         value = find(hash, key)
@@ -280,23 +277,23 @@ def reduce(hash, f, initial_state):
     return state
 
 
-def mempty(hash):
+def mempty(hash) -> None:
     return None
 
 
-def mconcat(a, b):
+def mconcat(a: HashMap, b: HashMap) -> HashMap:
     if a is None:
         return b
     if b is None:
         return a
     for key in b.key_set:
         value = find(b, key)
-        hash = add(a, key, value)
+        a = add(a, key, value)
     return a
 
 
 # iterator
-def iterator(hash):
+def iterator(hash: HashMap) -> object:
     if hash is not None:
         res = []
         list = to_list(hash)

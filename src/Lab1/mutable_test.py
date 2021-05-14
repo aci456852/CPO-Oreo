@@ -40,6 +40,8 @@ class TestMutableList(unittest.TestCase):
         dict1 = {1: 2, 2: 4, 3: 6}
         hash.from_dict(dict1)
         hash.remove(1)
+        with self.assertRaises(Exception):  # Exception detection
+            hash.remove(5)
         dict2 = {2: 4, 3: 6}
         self.assertEqual(hash.to_dict(), dict2)
 
@@ -152,6 +154,7 @@ class TestMutableList(unittest.TestCase):
         i = iter(HashMap())
         self.assertRaises(StopIteration, lambda: next(i))
 
+    # e·a = a·e = a
     @given(a=st.lists(st.integers()))
     def test_monoid_identity(self, a):
         hash = HashMap()
@@ -160,14 +163,16 @@ class TestMutableList(unittest.TestCase):
         self.assertEqual(hash.mconcat(hash.mempty(), hash_a), hash_a)
         self.assertEqual(hash.mconcat(hash_a, hash.mempty()), hash_a)
 
-    def test_monoid_associativity(self):
+    # (a·b)·c = a·(b·c)
+    @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
+    def test_monoid_associativity(self, a, b, c):
         hash = HashMap()
         hash_a = HashMap()
         hash_b = HashMap()
         hash_c = HashMap()
-        hash_a.add(1, 2)
-        hash_b.add(2, 4)
-        hash_c.add(3, 6)
+        hash_a.from_list(a)
+        hash_b.from_list(b)
+        hash_c.from_list(c)
         # (a·b)·c
         a_b = hash.mconcat(hash_a, hash_b)
         ab_c = hash.mconcat(a_b, hash_c)
@@ -176,9 +181,9 @@ class TestMutableList(unittest.TestCase):
         hash_a1 = HashMap()
         hash_b1 = HashMap()
         hash_c1 = HashMap()
-        hash_a1.add(1, 2)
-        hash_b1.add(2, 4)
-        hash_c1.add(3, 6)
+        hash_a1.from_list(a)
+        hash_b1.from_list(b)
+        hash_c1.from_list(c)
         # a·(b·c)
         b_c = hash1.mconcat(hash_b1, hash_c1)
         a_bc = hash1.mconcat(hash_a1, b_c)

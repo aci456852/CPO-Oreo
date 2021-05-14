@@ -4,15 +4,15 @@ Author: Liang Ziyi
 Date: 2021/3/20
 Title: Dictionary based on hash-map (mutable)
 """
-
+from typing import List, Tuple
 
 class Node(object):
-    def __init__(self, key, value, next=None):
+    def __init__(self, key, value, next=None) -> None:
         self.key = key
         self.value = value
         self.next = next
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Node [key=" + self.key + ",value=" + self.value + "]"
 
 
@@ -20,7 +20,7 @@ class HashMap(object):
 
     empty = object()
 
-    def __init__(self, dict=None):
+    def __init__(self, dict = None) -> None:
         self.key_set = []
         self.size = 10
         self.data = [self.empty for _ in range(10)]
@@ -33,12 +33,12 @@ class HashMap(object):
         self.index = 0
 
     # get hash value
-    def get_value(self, key):
+    def get_value(self, key: int) -> int:
         hash_value = key % self.size
         return hash_value
 
     # insert key-value pairs into hash map
-    def add(self, key, value):
+    def add(self, key: object, value: int) -> None:
         if type(key) == str:  # change key's type for remove key type restriction --str
             key = ord(key)
         if type(key) == bool:  # change key's type for remove key type restriction --bool
@@ -71,14 +71,14 @@ class HashMap(object):
             self.len = self.len + 1
 
     # remove element in hash map by key
-    def remove(self, key):
+    def remove(self, key: int) -> bool:
         # Add tests for exceptions
         if key is None:
-            raise Exception("remove not existence key!")
+            raise Exception("the key is None!")
 
         hash_value = self.get_value(key)
         if self.data[hash_value] is self.empty:
-            return False
+            raise Exception("remove not existence key!")
         elif self.data[hash_value].key is key:
             self.data[hash_value] = self.data[hash_value].next
             self.remove_key_set(key)
@@ -96,10 +96,10 @@ class HashMap(object):
             p.next = None
             self.remove_key_set(key)
             return True
-        return False
+        raise Exception("remove failed!")
 
     # find element in hash map by key
-    def find(self, key):
+    def find(self, key: int) -> int:
         if type(key) == str:  # change key's type for remove key type restriction --str
             key = ord(key)
         if type(key) == bool:  # change key's type for remove key type restriction --bool
@@ -124,19 +124,18 @@ class HashMap(object):
                         return p.value
                     p = p.next
                 i += 1
-        print("can not find the key")
-        return -1
+        raise Exception("can not find the key")
 
-    def remove_key_set(self, key):
+    def remove_key_set(self, key: int) -> None:
         self.key_set.remove(key)
         self.len = self.len - 1
 
-    def from_dict(self, dict):
+    def from_dict(self, dict: dict) -> None:
         for k, v in dict.items():
             self.add(k, v)
 
     # transfer hash map into dict
-    def to_dict(self):
+    def to_dict(self) -> dict:
         myDict = {}
         if self.len == 0:
             return myDict
@@ -155,24 +154,24 @@ class HashMap(object):
         return myDict
 
     # element number in hash map
-    def get_size(self):
+    def get_size(self) -> int:
         size = len(self.key_set)
         return size
 
     # transfer hash map into list type
-    def to_list(self):
+    def to_list(self) -> List:
         list = []
         for key in self.key_set:
             list.append(self.find(key))
         return list
 
     # add element from list type
-    def from_list(self, list):
+    def from_list(self, list: List) -> None:
         for key, value in enumerate(list):
             self.add(key, value)
 
     # find element with even value in hash map.
-    def find_iseven(self):
+    def find_iseven(self) -> List:
         list = self.to_list()
         my_list = []
         for value in list:
@@ -182,7 +181,7 @@ class HashMap(object):
         return my_list
 
     # filter element with even value in hash map.
-    def filter_iseven(self):
+    def filter_iseven(self) -> List:
         list = self.to_list()
         for value in list:
             if type(value) is int or type(value) is float:
@@ -191,14 +190,14 @@ class HashMap(object):
         return list
 
     # list to store all node in hash map by key&value
-    def to_kv_entry_list(self):
+    def to_kv_entry_list(self) -> List:
         list = []
         for key in self.key_set:
             list.append(Node(key, self.find(key)))
         return list
 
     # map element value in hash map with f
-    def map(self, f):
+    def map(self, f: type) -> dict:
         dict = {}
         for key in self.key_set:
             value = f(self.find(key))
@@ -206,14 +205,14 @@ class HashMap(object):
         return dict
 
     #  build a return value by specific functions(f)
-    def reduce(self, f, initial_state):
+    def reduce(self, f, initial_state) -> int:
         state = initial_state
         for key in self.key_set:
             value = self.find(key)
             state = f(state, value)
         return state
 
-    def mempty(self):
+    def mempty(self) -> None:
         return None
 
     def mconcat(self, a, b):
