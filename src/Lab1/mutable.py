@@ -4,7 +4,7 @@ Author: Liang Ziyi
 Date: 2021/3/20
 Title: Dictionary based on hash-map (mutable)
 """
-from typing import List, Tuple
+from typing import List, Tuple, Union, Optional
 
 class Node(object):
     def __init__(self, key, value, next=None) -> None:
@@ -21,13 +21,13 @@ class HashMap(object):
     empty = object()
 
     def __init__(self, dict = None) -> None:
-        self.key_set = []
+        self.key_set: List[int] = []
         self.size = 10
         self.data = [self.empty for _ in range(10)]
 
         # Initialize dict
         if dict is not None:
-            self.from_dict(self, dict)
+            self.from_dict(dict)
 
         self.len = 0
         self.index = 0
@@ -38,7 +38,7 @@ class HashMap(object):
         return hash_value
 
     # insert key-value pairs into hash map
-    def add(self, key: object, value: int) -> None:
+    def add(self, key: Union[int, str, bytes, bool], value: int) -> None:
         if type(key) == str:  # change key's type for remove key type restriction --str
             key = ord(key)
         if type(key) == bool:  # change key's type for remove key type restriction --bool
@@ -48,7 +48,6 @@ class HashMap(object):
                 key = 0
         if type(key) == float:  # change key's type for remove key type restriction --float
             key = int(key)
-
         hash_value = self.get_value(key)
         kv_entry = Node(key, value)
 
@@ -130,7 +129,7 @@ class HashMap(object):
         self.key_set.remove(key)
         self.len = self.len - 1
 
-    def from_dict(self, dict: dict) -> None:
+    def from_dict(self, dict: Optional[dict]) -> None:
         for k, v in dict.items():
             self.add(k, v)
 

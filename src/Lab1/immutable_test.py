@@ -122,11 +122,10 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(reduce(hash1, lambda st, e: st + e, 0), 6)
 
     def test_hash_collision(self):
-        hash1 = HashMap()
-        hash2 = HashMap()
-        hash1 = add(hash1, 1, 777)
-        hash2 = add(hash2, 11, 777)
-        self.assertEqual(get_value(hash1, 1), get_value(hash2, 11))
+        hash = HashMap()
+        hash = add(hash, 1, 777)
+        hash = add(hash, 11, 777)
+        self.assertEqual(get_value(hash, 1), get_value(hash, 11))
 
     def test_iter(self):
         dict1 = {1: 2, 2: 4, 3: 6, 4: 8}

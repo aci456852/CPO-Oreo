@@ -4,7 +4,7 @@ Author: Liang Ziyi
 Date: 2021/3/20
 Title: Dictionary based on hash-map (immutable)
 """
-from typing import List, Tuple
+from typing import List, Tuple, Union, Optional
 
 class Node(object):
     def __init__(self, key=None, value=None, next=None) -> None:
@@ -18,7 +18,7 @@ class Node(object):
 class HashMap(object):
 
     def __init__(self, dict=None) -> None:
-        self.key_set = []
+        self.key_set: List[int] = []
         self.size = 10
         self.data = [Node() for _ in range(10)]
 
@@ -34,7 +34,7 @@ def get_value(hash: HashMap, key: int) -> int:
 
 
 # insert key-value pairs into hash map
-def add(hash: HashMap, key: object, value: int) -> HashMap:
+def add(hash: HashMap, key: Union[int, str, bytes, bool], value: int) -> HashMap:
     # copy structure
     new_hash = HashMap()
     new_hash.size = hash.size
@@ -165,7 +165,7 @@ def remove_key_set(hash: HashMap, key: int) -> HashMap:
     raise Exception("can not find the key")
 
 
-def from_dict(hash: HashMap, dict: dict) -> HashMap:
+def from_dict(hash: HashMap, dict: Optional[dict]) -> HashMap:
     new_hash = HashMap()
     new_hash.size = hash.size
     for x in range(len(hash.key_set)):
