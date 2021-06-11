@@ -123,9 +123,11 @@ class TestImmutableList(unittest.TestCase):
 
     def test_hash_collision(self):
         hash = HashMap()
-        hash = add(hash, 1, 777)
+        hash = add(hash, 1, 7)
         hash = add(hash, 11, 777)
-        self.assertEqual(get_value(hash, 1), get_value(hash, 11))
+        self.assertEqual(get_value(hash, 1), get_value(hash, 11))  # check input two keys have the same hash
+        self.assertEqual(find(hash, 1), 7)  # check that data inside your structure store well
+        self.assertEqual(find(hash, 11), 777)
 
     def test_iter(self):
         dict1 = {1: 2, 2: 4, 3: 6, 4: 8}
@@ -138,7 +140,7 @@ class TestImmutableList(unittest.TestCase):
         i = iter(HashMap())
         self.assertRaises(StopIteration, lambda: next(i))
 
-    # e·a = a·e = a
+    # e·a = a·e = acollision
     @given(a=st.lists(st.integers()))
     def test_monoid_identity(self, a):
         hash = HashMap()

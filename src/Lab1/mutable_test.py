@@ -138,9 +138,11 @@ class TestMutableList(unittest.TestCase):
 
     def test_hash_collision(self):
         hash = HashMap()
-        hash.add(1, 777)
+        hash.add(1, 7)
         hash.add(11, 777)
-        self.assertEqual(hash.get_value(1), hash.get_value(11))
+        self.assertEqual(hash.get_value(1), hash.get_value(11))  # check input two keys have the same hash
+        self.assertEqual(hash.find(1), 7)  # check that data inside your structure store well
+        self.assertEqual(hash.find(11), 777)
 
     def test_iter(self):
         dict1 = {1: 2, 2: 4, 3: 6, 4: 8}
