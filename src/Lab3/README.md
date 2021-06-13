@@ -27,7 +27,8 @@ We designed the multi-dispatch library using decorators and multi-method classes
 
 Run results of the entire test file.
 
-![image-20210612091508461](C:/Users/MSI-NB/AppData/Roaming/Typora/typora-user-images/image-20210612091508461.png)
+![fff50999efab6f92c09ef6545ea721e](https://user-images.githubusercontent.com/39373318/121800410-2dac6200-cc64-11eb-8bbd-9b9597d3833b.png)
+
 
 ## Conclusion
 
