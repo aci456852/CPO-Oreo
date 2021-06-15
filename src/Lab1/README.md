@@ -257,3 +257,10 @@ For test class, we use pycharm to develop it . if you want to test a function of
 In this experiment, we completed the design and implementation of the dictionary based on hash map (changeable and immutable). The mutable object can be changed after it is created, and the address will not change at the same time. The opposite is true for immutable objects. After the object is created, it cannot be changed. Once the address is changed, the variable points to a new object.
 
 We realize the functions of adding, deleting, modifying, checking, size, structure conversion and many more. This experiment deepened our understanding of python and data structure.
+
+## Test
+test_immutably.py and test_mutable.py implemented pytest test.
+
+![test_mutable.py](https://user-images.githubusercontent.com/73821262/122053191-1b275980-ce19-11eb-846b-e4f189308484.png)
+
+![test_immutably.py](https://user-images.githubusercontent.com/73821262/122053217-21b5d100-ce19-11eb-968e-fcba91c30a86.png)
