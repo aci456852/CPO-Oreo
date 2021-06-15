@@ -26,7 +26,7 @@ class TestMultimethod(unittest.TestCase):
         self.assertEqual(foo(a=1, b=2), 3)
         self.assertEqual(foo(a='1', b=10), '110')
 
-    #4.inherit
+    # 4.inherit
     def test_inherit(self):
         self.assertEqual(bar_A(1, 3), bar_B(1, 3))
         self.assertEqual(bar_B(2, 4), bar_C(2, 4))

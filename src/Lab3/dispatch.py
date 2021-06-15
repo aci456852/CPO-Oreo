@@ -1,8 +1,9 @@
 from src.Lab3.multiMethod import *
 
 
+@multimethod(int)
 @multimethod(int, int)
-def foo(a, b):
+def foo(a, b=2):
     return a + b
 
 
@@ -27,6 +28,7 @@ def foo(a, b):
 def foo(a, b=10):
     c = str(b)
     return a + c
+
 
 
 @multimethod(float)
