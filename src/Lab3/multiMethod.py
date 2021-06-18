@@ -23,7 +23,7 @@ class MultiMethod(object):
                 for i in range(len(a)):
                     if isinstance(input_list[i], a[i]) is False:
                         flag = 0
-                if flag is 1:
+                if flag == 1:
                     return self.typemap.get(a)
         raise TypeError("no match")
 
