@@ -23,8 +23,8 @@ def test_optional():
 def test_named_object():
     assert foo(a=1, b=2) == 3
     assert foo(a='1', b=10) == '110'
-    assert bar(a=1, b=10) == 11
-    assert bar(a='1', b=10) == 11
+    assert bar(a=1, b=10.5) == 11.5
+    assert bar(a='1', b=10.5) == 11.5
 
 # 4.inherit
 def test_inherit():
