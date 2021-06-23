@@ -1,34 +1,108 @@
 
 from src.Lab2.src.mathematical_expression import MathExpression
+# from src.mathematical_expression import MathExpression
+from hypothesis import given
+import hypothesis.strategies as st
 import pytest
 
-def test_add():
-    expression = '1+2+3+4+5'
-    str = MathExpression(expression)
-    str.convert_string()
-    res = str.evaluate()
-    assert res == 15
+@given(b=st.lists(st.integers()))
+def test_add(b):
+    a = []  # The code is to limit the input data
+    flag = 0
+    for i in b:
+        if flag == 0:
+            if i >= 0  and i < 10000:
+                a.append(i)
+                flag = 1
+        else:
+            if i < 10000 and i > -10000:
+                a.append(i)
+    if len(a) > 0:
+        expression = ''
+        expression += str(a[0])
+        sum = a[0]
+        for i in a[1:]:
+            sum += i
+            if i >= 0:
+                expression += '+'
+            expression += str(i)
 
-def test_sub():
-    expression = '10-2-2-2'
-    str = MathExpression(expression)
-    str.convert_string()
-    res = str.evaluate()
-    assert res == 4
+        print(expression)
+        s = MathExpression(expression)
+        s.convert_string()
+        res = s.evaluate()
+        assert res == sum
 
-def test_mul():
-    expression = '10*2*2'
-    str = MathExpression(expression)
-    str.convert_string()
-    res = str.evaluate()
-    assert res == 40
+@given(b=st.lists(st.integers()))
+def test_sub(b):
+    a = []  # The code is to limit the input data
+    flag = 0
+    for i in b:
+        if flag == 0:
+            if i >= 0  and i < 10000:
+                a.append(i)
+                flag = 1
+        else:
+            if i < 10000 and i > -10000:
+                a.append(i)
+    if len(a) > 0:
+        expression = ''
+        expression += str(a[0])
+        sum = a[0]
+        for i in a[1:]:
+            if i < 0:
+                sum += i
+            if i >= 0:
+                sum -= i
+                expression += '-'
+            expression += str(i)
+        print(expression)
+        s = MathExpression(expression)
+        s.convert_string()
+        res = s.evaluate()
+        assert res == sum
 
-def test_div():
-    expression = '22/2'
-    str = MathExpression(expression)
-    str.convert_string()
-    res = str.evaluate()
-    assert res == 11
+@given(b=st.lists(st.integers()))
+def test_mul(b):
+    a = []  # The code is to limit the input data
+    for i in b:
+        if i >= 0 and i < 100:
+            a.append(i)
+    if len(a) > 0:
+        expression = ''
+        expression += str(a[0])
+        sum = a[0]
+        for i in a[1:]:
+            sum *= i
+            if i >= 0:
+                expression += '*'
+            expression += str(i)
+        print(expression)
+        s = MathExpression(expression)
+        s.convert_string()
+        res = s.evaluate()
+        assert res == sum
+
+@given(b=st.lists(st.integers()))
+def test_div(b):
+    a = []  # The code is to limit the input data
+    for i in b:
+        if i > 0 and i < 100:
+            a.append(i)
+    if len(a) > 0:
+        expression = ''
+        expression += str(a[0])
+        sum = a[0]
+        for i in a[1:]:
+            sum /= i
+            if i > 0:
+                expression += '/'
+            expression += str(i)
+        print(expression)
+        s = MathExpression(expression)
+        s.convert_string()
+        res = s.evaluate()
+        assert res == sum
 
 def test_mix1():
     expression = '((2+3)*6/(1+4))-1'
@@ -70,3 +144,4 @@ def test_dataflow():
     str = MathExpression(expression)
     str.convert_string()
     str.Visualization()
+
